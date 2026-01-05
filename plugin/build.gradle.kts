@@ -10,11 +10,11 @@ repositories {
 
 dependencies {
     // Maven Settings Builder for parsing settings.xml
-    implementation("org.apache.maven:maven-settings-builder:3.9.6")
+    implementation(libs.maven.settings.builder)
     
     // Plexus Cipher and Sec Dispatcher for decryption
-    implementation("org.codehaus.plexus:plexus-cipher:2.0")
-    implementation("org.codehaus.plexus:plexus-sec-dispatcher:2.0")
+    implementation(libs.plexus.cipher)
+    implementation(libs.plexus.sec.dispatcher)
     
     // Sisu Inject / Guice might be needed by Maven components, but let's see if transitive deps cover it.
 }
@@ -24,37 +24,17 @@ testing {
         // Configure the built-in test suite
         val test by getting(JvmTestSuite::class) {
             // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.12.1")
-        }
-
-        // Create a new test suite
-        val functionalTest by registering(JvmTestSuite::class) {
-            dependencies {
-                // functionalTest test suite depends on the production code in tests
-                implementation(project())
-            }
-
-            targets {
-                all {
-                    // This test suite should run after the built-in test suite has run its tests
-                    testTask.configure { shouldRunAfter(test) } 
-                }
-            }
+            useJUnitJupiter(libs.versions.junit.jupiter)
         }
     }
 }
 
 gradlePlugin {
     // Define the plugin
-    val greeting by plugins.creating {
-        id = "io.mvgrd.greeting"
+    plugins.create("mvnSettings") {
+        id = "io.mvgrd"
         implementationClass = "io.mvgrd.GradleMvnSettingsPlugin"
+        displayName = "Gradle Maven Settings Plugin"
+        description = "A Gradle plugin to load repositories and authentication from Maven settings.xml"
     }
-}
-
-gradlePlugin.testSourceSets.add(sourceSets["functionalTest"])
-
-tasks.named<Task>("check") {
-    // Include functionalTest as part of the check lifecycle
-    dependsOn(testing.suites.named("functionalTest"))
 }

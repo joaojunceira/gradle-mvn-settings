@@ -61,7 +61,7 @@ class GradleMvnSettingsPluginFunctionalTest {
         writeString(getSettingsFile(), "");
         writeString(getBuildFile(),
                 "plugins {\n" +
-                        "  id('io.mvgrd.greeting')\n" +
+                        "  id('io.mvgrd')\n" +
                         "}\n" +
                         "mavenSettings {\n" +
                         "  userSettingsFile = file('settings.xml')\n" +
@@ -151,7 +151,7 @@ class GradleMvnSettingsPluginFunctionalTest {
 
         writeString(getBuildFile(),
                 "plugins {\n" +
-                        "  id('io.mvgrd.greeting')\n" +
+                        "  id('io.mvgrd')\n" +
                         "}\n" +
                         "mavenSettings {\n" +
                         "  userSettingsFile = file('settings.xml')\n" +
