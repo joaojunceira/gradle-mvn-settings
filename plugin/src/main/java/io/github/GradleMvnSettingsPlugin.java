@@ -2,6 +2,7 @@ package io.github;
 
 import org.apache.maven.settings.Mirror;
 import org.apache.maven.settings.Profile;
+import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Repository;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -65,7 +66,7 @@ public class GradleMvnSettingsPlugin implements Plugin<Project> {
 
     private void configureProxies(Settings settings, Project project) {
         // Simple proxy logging for now
-        org.apache.maven.settings.Proxy proxy = settings.getActiveProxy();
+        Proxy proxy = settings.getActiveProxy();
         if (proxy != null) {
             project.getLogger().info("Found active Maven proxy: {}:{}", proxy.getHost(), proxy.getPort());
             // In a real implementation, we would set system properties here if not present:
@@ -92,7 +93,7 @@ public class GradleMvnSettingsPlugin implements Plugin<Project> {
     }
 
     private void addRepository(RepositoryHandler gradleRepos, Repository mavenRepo, Settings settings,
-            MavenPasswordDecryptor decryptor) {
+                               MavenPasswordDecryptor decryptor) {
         String url = mavenRepo.getUrl();
         String id = mavenRepo.getId();
 

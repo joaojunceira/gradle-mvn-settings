@@ -1,6 +1,8 @@
 package io.github.crypto;
 
+import org.sonatype.plexus.components.cipher.DefaultPlexusCipher;
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
+
 import java.io.File;
 
 // We need to implement a SecDispatcher that can load from a specific file.
@@ -17,7 +19,7 @@ public class MavenPasswordDecryptor {
     private final DefaultSecDispatcher secDispatcher;
 
     public MavenPasswordDecryptor(File securitySettingsFile) {
-        org.sonatype.plexus.components.cipher.DefaultPlexusCipher cipher = new org.sonatype.plexus.components.cipher.DefaultPlexusCipher();
+        DefaultPlexusCipher cipher = new DefaultPlexusCipher();
         this.secDispatcher = new DefaultSecDispatcher(cipher);
 
         if (securitySettingsFile != null) {

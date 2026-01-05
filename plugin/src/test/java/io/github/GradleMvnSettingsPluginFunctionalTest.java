@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.io.FileWriter;
+
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.BuildResult;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GradleMvnSettingsPluginFunctionalTest {
@@ -35,36 +37,38 @@ class GradleMvnSettingsPluginFunctionalTest {
         // Create a mock settings.xml
         File settingsXml = new File(projectDir, "settings.xml");
         writeString(settingsXml,
-                "<settings>" +
-                        "  <profiles>" +
-                        "    <profile>" +
-                        "      <id>my-profile</id>" +
-                        "      <repositories>" +
-                        "        <repository>" +
-                        "          <id>my-repo</id>" +
-                        "          <url>https://repo.mycompany.com/maven2</url>" +
-                        "        </repository>" +
-                        "      </repositories>" +
-                        "    </profile>" +
-                        "  </profiles>" +
-                        "  <activeProfiles>" +
-                        "    <activeProfile>my-profile</activeProfile>" +
-                        "  </activeProfiles>" +
-                        "</settings>");
+                """
+                        <settings>\
+                          <profiles>\
+                            <profile>\
+                              <id>my-profile</id>\
+                              <repositories>\
+                                <repository>\
+                                  <id>my-repo</id>\
+                                  <url>https://repo.mycompany.com/maven2</url>\
+                                </repository>\
+                              </repositories>\
+                            </profile>\
+                          </profiles>\
+                          <activeProfiles>\
+                            <activeProfile>my-profile</activeProfile>\
+                          </activeProfiles>\
+                        </settings>""");
 
         writeString(getSettingsFile(), "");
         writeString(getBuildFile(),
-                "plugins {\n" +
-                        "  id('io.github.joaojunceira.gradle-mvn-settings')\n" +
-                        "}\n" +
-                        "mavenSettings {\n" +
-                        "  userSettingsFile = file('settings.xml')\n" +
-                        "}\n" +
-                        "task listRepos {\n" +
-                        "  doLast {\n" +
-                        "    repositories.each { println 'Repo: ' + it.name + ' -> ' + it.url }\n" +
-                        "  }\n" +
-                        "}");
+                """
+                        plugins {
+                          id('io.github.joaojunceira.gradle-mvn-settings')
+                        }
+                        mavenSettings {
+                          userSettingsFile = file('settings.xml')
+                        }
+                        task listRepos {
+                          doLast {
+                            repositories.each { println 'Repo: ' + it.name + ' -> ' + it.url }
+                          }
+                        }""");
 
         // Run the build
         GradleRunner runner = GradleRunner.create();
@@ -114,53 +118,55 @@ class GradleMvnSettingsPluginFunctionalTest {
         // ClassNotFoundException.
 
         writeString(getSecuritySettingsFile(),
-                "<settingsSecurity>" +
-                        "  <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>" +
-                        "</settingsSecurity>");
+                """
+                        <settingsSecurity>\
+                          <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>\
+                        </settingsSecurity>""");
 
         writeString(getMavenSettingsFile(),
-                "<settings>" +
-                        "  <servers>" +
-                        "    <server>" +
-                        "      <id>my-secure-repo</id>" +
-                        "      <username>user</username>" +
-                        "      <password>{input_is_already_encrypted_mock}</password>" +
-                        "    </server>" +
-                        "  </servers>" +
-                        "  <profiles>" +
-                        "    <profile>" +
-                        "      <id>secure-profile</id>" +
-                        "      <repositories>" +
-                        "        <repository>" +
-                        "          <id>my-secure-repo</id>" +
-                        "          <url>https://secure.example.com</url>" +
-                        "        </repository>" +
-                        "      </repositories>" +
-                        "    </profile>" +
-                        "  </profiles>" +
-                        "  <activeProfiles>" +
-                        "    <activeProfile>secure-profile</activeProfile>" +
-                        "  </activeProfiles>" +
-                        "</settings>");
+                """
+                        <settings>\
+                          <servers>\
+                            <server>\
+                              <id>my-secure-repo</id>\
+                              <username>user</username>\
+                              <password>{input_is_already_encrypted_mock}</password>\
+                            </server>\
+                          </servers>\
+                          <profiles>\
+                            <profile>\
+                              <id>secure-profile</id>\
+                              <repositories>\
+                                <repository>\
+                                  <id>my-secure-repo</id>\
+                                  <url>https://secure.example.com</url>\
+                                </repository>\
+                              </repositories>\
+                            </profile>\
+                          </profiles>\
+                          <activeProfiles>\
+                            <activeProfile>secure-profile</activeProfile>\
+                          </activeProfiles>\
+                        </settings>""");
 
         writeString(getBuildFile(),
-                "plugins {\n" +
-                        "  id('io.github.joaojunceira.gradle-mvn-settings')\n" +
-                        "}\n" +
-                        "mavenSettings {\n" +
-                        "  userSettingsFile = file('settings.xml')\n" +
-                        "  securitySettingsFile = file('settings-security.xml')\n" +
-                        "}\n" +
-                        "task listCredentials {\n" +
-                        "  doLast {\n" +
-                        "    repositories.each { \n" +
-                        "       if (it instanceof MavenArtifactRepository) {\n" +
-                        "           println 'Repo: ' + it.name + ' User: ' + it.credentials.username + ' Pass: ' + it.credentials.password \n"
-                        +
-                        "       }\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "}");
+                """
+                        plugins {
+                          id('io.github.joaojunceira.gradle-mvn-settings')
+                        }
+                        mavenSettings {
+                          userSettingsFile = file('settings.xml')
+                          securitySettingsFile = file('settings-security.xml')
+                        }
+                        task listCredentials {
+                          doLast {
+                            repositories.each {\s
+                               if (it instanceof MavenArtifactRepository) {
+                                   println 'Repo: ' + it.name + ' User: ' + it.credentials.username + ' Pass: ' + it.credentials.password\s
+                               }
+                            }
+                          }
+                        }""");
 
         // Run the build
         GradleRunner runner = GradleRunner.create();
