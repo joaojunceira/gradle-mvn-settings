@@ -26,3 +26,8 @@ build
 *.class
 
 *.log
+
+**/plugin/build
+**/plugin/bin
+
+.idea

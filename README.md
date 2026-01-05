@@ -15,7 +15,7 @@ Apply the plugin in your `build.gradle.kts` (Kotlin) or `build.gradle` (Groovy):
 
 ```kotlin
 plugins {
-    id("io.mvgrd") version "0.0.1" // Replace with actual version
+    id("io.github.joaojunceira.gradle-mvn-settings") version "0.0.1" // Replace with actual version
 }
 ```
 

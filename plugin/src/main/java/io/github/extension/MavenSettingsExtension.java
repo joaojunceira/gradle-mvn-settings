@@ -1,4 +1,4 @@
-package io.mvgrd.extension;
+package io.github.extension;
 
 import org.gradle.api.file.RegularFileProperty;
 

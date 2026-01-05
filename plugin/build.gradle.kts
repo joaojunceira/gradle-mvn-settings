@@ -32,8 +32,8 @@ testing {
 gradlePlugin {
     // Define the plugin
     plugins.create("mvnSettings") {
-        id = "io.mvgrd"
-        implementationClass = "io.mvgrd.GradleMvnSettingsPlugin"
+        id = "io.github.joaojunceira.gradle-mvn-settings"
+        implementationClass = "io.github.GradleMvnSettingsPlugin"
         displayName = "Gradle Maven Settings Plugin"
         description = "A Gradle plugin to load repositories and authentication from Maven settings.xml"
     }

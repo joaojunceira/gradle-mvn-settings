@@ -1,4 +1,4 @@
-package io.mvgrd.crypto;
+package io.github.crypto;
 
 import org.sonatype.plexus.components.sec.dispatcher.DefaultSecDispatcher;
 import java.io.File;

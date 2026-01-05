@@ -1,4 +1,4 @@
-package io.mvgrd.parser;
+package io.github.parser;
 
 import org.apache.maven.settings.Settings;
 import org.apache.maven.settings.building.SettingsBuildingException;

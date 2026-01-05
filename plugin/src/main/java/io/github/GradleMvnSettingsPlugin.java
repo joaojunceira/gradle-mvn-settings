@@ -1,8 +1,5 @@
-package io.mvgrd;
+package io.github;
 
-import io.mvgrd.crypto.MavenPasswordDecryptor;
-import io.mvgrd.extension.MavenSettingsExtension;
-import io.mvgrd.parser.MavenSettingsLoader;
 import org.apache.maven.settings.Mirror;
 import org.apache.maven.settings.Profile;
 import org.apache.maven.settings.Repository;
@@ -12,6 +9,10 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.authentication.http.BasicAuthentication;
+
+import io.github.crypto.MavenPasswordDecryptor;
+import io.github.extension.MavenSettingsExtension;
+import io.github.parser.MavenSettingsLoader;
 
 import java.io.File;
 import java.util.List;
@@ -66,7 +67,7 @@ public class GradleMvnSettingsPlugin implements Plugin<Project> {
         // Simple proxy logging for now
         org.apache.maven.settings.Proxy proxy = settings.getActiveProxy();
         if (proxy != null) {
-            project.getLogger().info("Found active Maven proxy: " + proxy.getHost() + ":" + proxy.getPort());
+            project.getLogger().info("Found active Maven proxy: {}:{}", proxy.getHost(), proxy.getPort());
             // In a real implementation, we would set system properties here if not present:
             // System.setProperty("http.proxyHost", proxy.getHost());
             // System.setProperty("http.proxyPort", String.valueOf(proxy.getPort()));
