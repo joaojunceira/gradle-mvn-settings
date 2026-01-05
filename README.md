@@ -1,5 +1,10 @@
 # Gradle Maven Settings Plugin
 
+> [!CAUTION]
+> **Work in Progress**: This plugin is currently under active development. Features and APIs are subject to change and may not be fully stable.
+
+[![WIP](https://img.shields.io/badge/status-WIP-orange.svg)](https://github.com/joaojunceira/gradle-mvn-settings)
+
 A Gradle plugin that allows you to load repositories, authentication credentials, and proxies directly from your Maven `settings.xml` file. This acts as a bridge between your existing Maven configuration and your Gradle build, making it easier to transition or work in a mixed environment.
 
 ## Features
